@@ -1,0 +1,47 @@
+.mailBox {
+    margin: 2rem;
+    border: 1px solid gray;
+}
+.footer {
+    display: flex;
+    align-items: center;
+}
+.sendButton {
+    padding: 7px;
+    cursor: pointer;
+    background-color: blue;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    margin-top: 3rem;
+    margin-left: 10px;
+    margin-bottom: 1rem;
+}
+.reciever {
+    display: flex;
+    border-bottom: 1px solid gray;
+    margin: 1px 10px;
+}
+.reciever input {
+    border: none;
+    width: 100%;
+    margin-left: 10px;
+}
+.subject {
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+    margin: 10px;
+}
+.subject input {
+    border: none;
+    width: 100%;
+}
+.toolBar {
+    margin-top: 55%;
+}
+.editor {
+    margin-top: -60%;
+}
+.wrapper {
+    width: 100%;
+}

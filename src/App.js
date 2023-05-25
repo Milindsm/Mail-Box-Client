@@ -3,9 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import {useNavigate} from "react-router-dom";
 import SignUp from './Components/SignUp';
-import Welcome from './Components/Welcome';
+
 import { authActions } from './Components/Store/AuthSlice';
 import './App.css';
+import ComposeMail from './Components/ComposeMail';
 
 function App() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ function App() {
             <Route
                 path="/welcome"
                 // element={loggedIn ? <Profile /> : <SignUp />}
-                element={isAuth ? <Welcome /> : <SignUp />}
+                element={isAuth ? <ComposeMail /> : <SignUp />}
             />
           </Routes>
 

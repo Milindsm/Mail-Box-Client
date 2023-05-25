@@ -33,13 +33,13 @@ const SignUp = () => {
 
             if (enteredPassword === confirmPassword) {
                 url =
-                    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCrcjTMNkHuxATvaYAB5otyhrSrHabuw7U";
+                    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDC9rWzDa4XH-ZCaTTgpN4F7zIIVSS62bw";
             } else {
                 alert("Both passwords doesn't match");
             }
         } else {
             url =
-                "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCrcjTMNkHuxATvaYAB5otyhrSrHabuw7U";
+                "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDC9rWzDa4XH-ZCaTTgpN4F7zIIVSS62bw";
         }
 
         fetch(url, {
