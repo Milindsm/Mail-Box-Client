@@ -20,7 +20,7 @@ const ComposeMail = () => {
         event.preventDefault();
         const recieverId = recieverIdRef.current.value;
         const subject = subjectRef.current.value;
-        const reciever = recieverId.replace(/[@,.]/g, "");
+       
 
         const mailDetails = {
             to: recieverId,
@@ -29,7 +29,7 @@ const ComposeMail = () => {
         };
         axios
             .post(
-                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}${reciever}.json`,
+                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox.json`,
                 mailDetails
             )
 

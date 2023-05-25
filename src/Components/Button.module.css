@@ -1,0 +1,32 @@
+.views {
+    margin-bottom: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.views button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+}
+.views div {
+    margin-bottom: 10px;
+    border-bottom: 1px solid grey;
+}
+.composeButton {
+    width: 70%;
+    margin-left: 15%;
+    cursor: pointer;
+    margin-top: 5px;
+    color: white;
+    background-color: blue;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 0.7rem 0.5rem;
+    margin-bottom: 10px;
+}
+
+.composeButton:hover {
+    background-color: rgb(97, 97, 255);
+}

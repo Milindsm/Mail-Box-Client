@@ -1,0 +1,11 @@
+.main {
+    display: flex;
+}
+.buttons {
+    width: 30%;
+    border: 1px solid gray;
+}
+.list {
+    margin-left: 5px;
+    width: 100%;
+}
