@@ -3,6 +3,7 @@ import Button from "./Button";
 import MailList from "./MailList";
 import { useSelector } from "react-redux";
 import classes from "./MailBox.module.css";
+import { Fragment } from "react";
 
 
 const MailBox = () => {
@@ -15,10 +16,11 @@ const MailBox = () => {
             to={mail.to}
             id={mail.id}
             message={mail.message}
+            isRead={mail.isRead}
         />
     ));
     return (
-        <div>
+        <Fragment>
             <MailHeader />
             <div className={classes.main}>
                 <div className={classes.buttons}>
@@ -26,7 +28,7 @@ const MailBox = () => {
                 </div>
                 <div className={classes.list}>{mailList}</div>
             </div>
-        </div>
+        </Fragment>
     );
 };
 

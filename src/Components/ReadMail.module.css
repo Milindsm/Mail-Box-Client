@@ -1,0 +1,26 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(232, 229, 226);
+}
+.header button {
+    background-color: transparent;
+    border: none;
+}
+.mail {
+    margin: 20px;
+    border: 1px solid gray;
+}
+.actions {
+    margin-left: 2%;
+}
+.to {
+    font-weight: bolder;
+    margin-bottom: 1px;
+}
+.subject {
+    margin-bottom: 5px;
+}
+.message {
+    margin-bottom: 5cm;
+}

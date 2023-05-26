@@ -1,7 +1,17 @@
 .list {
     display: flex;
-    margin-bottom: 5px;
+    background-color: rgb(253, 251, 251);
+    border-bottom: 1px solid gray;
+    padding: 5px;
 }
 .to {
     width: 25%;
+    margin-left: 5px;
+}
+.circle {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-top: 8px;
+    background-color: blue;
 }

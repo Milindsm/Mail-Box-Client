@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./Button.module.css";
+import { useSelector } from "react-redux";
 
 const Button = () => {
+    const totalMail = useSelector((state) => state.mail.totalmail);
     const Navigate = useNavigate();
     const composeButtonHandler = () => {
         Navigate ("/compose-mail");
@@ -16,8 +18,9 @@ const Button = () => {
             </button>
 
             <div className={classes.views}>
-                <div>
+            <div className={classes.unread}>
                     <button>Inbox</button>
+                    <span>{`[${totalMail}]`}</span>
                 </div>
                 <div>
                     <button>Unread</button>

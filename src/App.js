@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import SignUp from './Components/SignUp';
 import axios from 'axios';
 import { mailActions } from './Components/Store/MailSlice';
+import ReadMail from './Components/ReadMail';
 import MailBox from './Components/MailBox';
 import { authActions } from './Components/Store/AuthSlice';
 import './App.css';
@@ -35,9 +36,14 @@ function App() {
   return (
       <Fragment>
           <Routes>
+            {/* {!isAuth && <SignUp/>}
+            {!isAuth && (
+                <Route path='/' element={<MailBox/>}/> 
+            )} */}
           <Route path="/" element={<SignUp />} />
             <Route path="/compose-mail" element={isAuth ? <ComposeMail /> : <SignUp />}/>
             <Route path="/mail-box" element={isAuth ? <MailBox/> : <SignUp />}/>
+            <Route path="/read-mail" element={isAuth ? <ReadMail/> : <SignUp />}/>
           </Routes>
 
       </Fragment>

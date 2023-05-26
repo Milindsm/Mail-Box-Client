@@ -30,3 +30,8 @@
 .composeButton:hover {
     background-color: rgb(97, 97, 255);
 }
+
+.unread {
+    display: flex;
+    justify-content: space-between;
+}
