@@ -29,7 +29,7 @@ const Button = () => {
                 }
                 dispatch(mailActions.addMail(mailArray));
             });
-        Navigate("/mail-box");
+        
     };
     const sentMailHandler = () => {
         dispatch(mailActions.setInboxTrue(false));
@@ -48,7 +48,7 @@ const Button = () => {
                 }
                 dispatch(mailActions.sentMail(mailArray));
             });
-        Navigate("/mail-box");
+        
     };
     return (
         <div>

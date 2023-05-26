@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialMailState = {
     mails: [],
+    sentmails: [],
     unread: 0,
     currentMail: {},
     inbox: true,
@@ -25,7 +26,7 @@ const mailSlice = createSlice({
             });
         },
         sentMail(state, action) {
-            state.mails = action.payload;
+            state.sentmails = action.payload;
         },
         addMailToList(state, action) {
             if (
@@ -47,6 +48,10 @@ const mailSlice = createSlice({
             const id = action.payload;
             state.mails = state.mails.filter((mail) => mail.id !== id);
         },
+        deleteSentMail(state, action) {
+            const id = action.payload;
+            state.sentmails = state.sentmails.filter((mail) => mail.id !== id);
+        },
         updateMail(state, action) {
             const updatedMail = action.payload;
             state.currentMail = updatedMail;
@@ -62,6 +67,23 @@ const mailSlice = createSlice({
             }
             if (!state.inbox && !existingMail.isRead) {
                 state.mails.splice(existingMailIndex, 1, updatedMail);
+            }
+        },
+        updateSentMail(state, action) {
+            const updatedMail = action.payload;
+            state.currentMail = updatedMail;
+            const existingMail = state.sentmails.find(
+                (mail) => mail.id === updatedMail.id
+            );
+            const existingMailIndex = state.sentmails.findIndex(
+                (mail) => mail.id === updatedMail.id
+            );
+            if (state.inbox && !existingMail.isRead) {
+                state.unread--;
+                state.sentmails.splice(existingMailIndex, 1, updatedMail);
+            }
+            if (!state.inbox && !existingMail.isRead) {
+                state.sentmails.splice(existingMailIndex, 1, updatedMail);
             }
         },
     },
