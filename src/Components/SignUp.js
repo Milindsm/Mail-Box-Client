@@ -1,4 +1,4 @@
-import React,{useRef,useState} from "react";
+import React,{Fragment,useRef,useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {authActions} from "../Components/Store/AuthSlice";
@@ -82,30 +82,33 @@ const SignUp = () => {
     };
 
     return (
+        
+        <Fragment >
         <section className={classes.auth}>
             <h1>{isLogin ? "LOGIN" : "SIGN UP"}</h1>
             <p>Please enter the following credentials!</p>
             <form onSubmit={submitHandler}>
-                <div className={classes.control}>
-                    <label htmlFor="email">Email Address</label>
-                    <input
-                        type="text"
-                        id="email"
-                        required
-                        ref={emailInputRef}
-                    />
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        required
-                        ref={passwordInputRef}
-                    />
-                </div>
-                {!isLogin && (
                     <div className={classes.control}>
+                    <label htmlFor="email">Email Address</label>
+                        <input
+                            type="text"
+                            id="email"
+                            required
+                            ref={emailInputRef}
+                        />
+                    </div>
+                    <div className={classes.control}>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            required
+                            ref={passwordInputRef}
+                        />
+                    </div>
+               
+                    {!isLogin && (
+                        <div className={classes.control}>
                         <label htmlFor="confirmPassword">
                             Confirm Password
                         </label>
@@ -120,45 +123,52 @@ const SignUp = () => {
                 <div className={classes.actions}>
                     {!isLogin && (
                         <div>
-                            <button
-                                className={classes.actionButton}
-                                onClick={loaderHandler}
-                            >
-                                {!isLoading ? " SignUp" : "Sending Request..."}
-                            </button>
-                            <p>
-                                Already have an account?
                                 <button
-                                    className={classes.actionToggle}
-                                    onClick={switchAuthModeHandler}
+                                    className={classes.actionButton}
+                                    onClick={loaderHandler}
                                 >
                                     Login
+                                    {!isLoading
+                                        ? " SignUp"
+                                        : "Sending Request..."}
                                 </button>
-                            </p>
-                        </div>
-                    )}
-                    {isLogin && (
-                        <div>
-                            <button
-                                className={classes.actionButton}
-                                onClick={loaderHandler}
-                            >
-                                {!isLoading ? "Login" : "Sending Request..."}
-                            </button>
-                            <p>
-                                Don't have an account?
+                                <p>
+                                    Already have an account?
+                                    <button
+                                        className={classes.actionToggle}
+                                        onClick={switchAuthModeHandler}
+                                    >
+                                        Login
+                                    </button>
+                                </p>
+                            </div>
+                        )}
+                        {isLogin && (
+                            <div>
                                 <button
-                                    className={classes.actionToggle}
-                                    onClick={switchAuthModeHandler}
+                                    className={classes.actionButton}
+                                    onClick={loaderHandler}
                                 >
                                     SignUp
+                                    {!isLoading
+                                        ? "Login"
+                                        : "Sending Request..."}
                                 </button>
-                            </p>
-                        </div>
-                    )}
-                </div>
-            </form>
-        </section>
+                                <p>
+                                    Don't have an account?
+                                    <button
+                                        className={classes.actionToggle}
+                                        onClick={switchAuthModeHandler}
+                                    >
+                                        SignUp
+                                    </button>
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </form>
+            </section>
+        </Fragment>
     );
 };
 export default SignUp;

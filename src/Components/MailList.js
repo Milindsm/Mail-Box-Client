@@ -8,44 +8,87 @@ import { Fragment } from "react";
 const MailList = (props) => {
     console.log(props);
     const userId = useSelector((state) => state.auth.userId);
+    const inbox = useSelector((state) => state.mail.inbox);
     const dispatch = useDispatch();
     const Navigate = useNavigate();
     const readMessageHandler = () => {
-        axios
-            .put(
-                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox/${props.id}.json`,
-                {
-                    to: props.to,
-                    subject: props.subject,
-                    message: props.message,
-                    isRead: true,
-                }
-            )
+        if (inbox) {
+            const mailDetails = {
+                to: props.to,
+                subject: props.subject,
+                message: props.message,
+                isRead: true,
+            };
 
-            .then((res) => {
-                dispatch(
-                    mailActions.updateMail({
-                        id: props.id,
-                        to: props.to,
-                        subject: props.subject,
-                        message: props.message,
-                        isRead: true,
-                    })
-                );
-            })
-            .catch((err) => alert(err));
-        Navigate("/read-mail");
+            axios
+                .put(
+                    `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox/${props.id}.json`,
+                    mailDetails
+                )
+
+                .then((res) => {
+                    dispatch(
+                        mailActions.updateMail({
+                            id: props.id,
+                            to: props.to,
+                            subject: props.subject,
+                            message: props.message,
+                            isRead: true,
+                        })
+                    );
+                })
+                .catch((err) => alert(err));
+            Navigate("/read-mail");
+        } else {
+            const mailDetails = {
+                to: props.to,
+                subject: props.subject,
+                message: props.message,
+                isRead: true,
+            };
+
+            axios
+                .put(
+                    `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}sentbox/${props.id}.json`,
+                    mailDetails
+                )
+
+                .then((res) => {
+                    dispatch(
+                        mailActions.updateMail({
+                            id: props.id,
+                            to: props.to,
+                            subject: props.subject,
+                            message: props.message,
+                            isRead: true,
+                        })
+                    );
+                })
+                .catch((err) => alert(err));
+            Navigate("/read-mail");
+        }
     };
     const deleteMailHandler = () => {
-        axios
-            .delete(
-                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox/${props.id}.json`
-            )
+        
+            if (inbox) {
+                axios
+                    .delete(
+                        `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox/${props.id}.json`
+                    )
 
-            .then((res) => {
-                dispatch(mailActions.deleteMail(props.id));
-            })
-            .catch((err) => alert(err));
+                    .then((res) => {
+                        dispatch(mailActions.deleteMail(props.id));
+                    })
+                    .catch((err) => alert(err));
+            } else {
+                axios
+                    .delete(
+                        `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}sentbox/${props.id}.json`
+                    )
+                    .then(() => {
+                        dispatch(mailActions.deleteMail(props.id));
+                    });
+            }
     };
     return (
         <Fragment>

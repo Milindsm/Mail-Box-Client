@@ -3,36 +3,49 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialMailState = {
     mails: [],
     unread: 0,
-    totalmail: 0,
     currentMail: {},
+    inbox: true,
 };
 
 const mailSlice = createSlice({
     name: "mails",
     initialState: initialMailState,
     reducers: {
+        setInboxTrue(state, action) {
+            state.inbox = action.payload;
+        },
         addMail(state, action) {
             state.mails = action.payload;
+            state.unread = 0;
             state.mails.forEach((mail) => {
                 if (!mail.isRead) {
                     state.unread++;
                 }
-                if (mail) {
-                    state.totalmail++;
-                }
+                
             });
         },
+        sentMail(state, action) {
+            state.mails = action.payload;
+        },
         addMailToList(state, action) {
-            const newMail = action.payload;
-            state.mails.push({
-                subject: newMail.subject,
-                message: newMail.message,
-                id: newMail.id,
-                to: newMail.to,
-                isRead: newMail.isRead,
-            });
-            state.unread++;
-            state.totalmail++;
+            if (
+                localStorage.getItem("email").replace(/[@,.]/g, "") ===
+                localStorage.getItem("reciever")
+            ) {
+                const newMail = action.payload;
+                state.mails.push({
+                    subject: newMail.subject,
+                    message: newMail.message,
+                    id: newMail.id,
+                    to: newMail.to,
+                    isRead: newMail.isRead,
+                });
+                state.unread++;
+            }
+        },
+        deleteMail(state, action) {
+            const id = action.payload;
+            state.mails = state.mails.filter((mail) => mail.id !== id);
         },
         updateMail(state, action) {
             const updatedMail = action.payload;
@@ -43,15 +56,13 @@ const mailSlice = createSlice({
             const existingMailIndex = state.mails.findIndex(
                 (mail) => mail.id === updatedMail.id
             );
-            if (!existingMail.isRead) {
+            if (state.inbox && !existingMail.isRead) {
                 state.unread--;
                 state.mails.splice(existingMailIndex, 1, updatedMail);
             }
-        },
-        deleteMail(state, action) {
-            const id = action.payload;
-            state.mails = state.mails.filter((mail) => mail.id !== id);
-            state.totalmail--;
+            if (!state.inbox && !existingMail.isRead) {
+                state.mails.splice(existingMailIndex, 1, updatedMail);
+            }
         },
     },
 });

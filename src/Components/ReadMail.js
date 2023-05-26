@@ -4,7 +4,9 @@ import classes from "./ReadMail.module.css";
 
 const ReadMail = () => {
     const Navigate = useNavigate();
+    const inbox = useSelector((state) => state.mail.inbox);
     const currentMail = useSelector((state) => state.mail.currentMail);
+    console.log(currentMail);
     const closeMailHandler = () => {
         Navigate("/mail-box");
     };
@@ -22,7 +24,9 @@ const ReadMail = () => {
                 </div>
             </div>
             <div>
-                <div className={classes.to}>{currentMail.to}</div>
+            <div className={classes.to}>
+                    {inbox ? `From:${currentMail.to}` : `To:${currentMail.to}`}
+                </div>
                 <div className={classes.subject}>{currentMail.subject}</div>
                 <div className={classes.message}>{currentMail.message}</div>
                 <div className={classes.actions}>

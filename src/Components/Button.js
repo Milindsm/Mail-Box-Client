@@ -1,12 +1,54 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./Button.module.css";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { mailActions } from "./Store/MailSlice";
+import axios from "axios";
 
 const Button = () => {
-    const totalMail = useSelector((state) => state.mail.totalmail);
+    const dispatch = useDispatch();
+    const unRead = useSelector((state) => state.mail.unread);
+    const userId = useSelector((state) => state.auth.userId);
     const Navigate = useNavigate();
     const composeButtonHandler = () => {
         Navigate ("/compose-mail");
+    };
+    const inboxHandler = () => {
+        dispatch(mailActions.setInboxTrue(true));
+        axios
+            .get(
+                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox.json`
+            )
+            .then((res) => {
+                let datas = res.data;
+
+                let mailArray = [];
+                for (let id in datas) {
+                    let mails = datas[id];
+                    mails.id = id;
+                    mailArray.push(mails);
+                }
+                dispatch(mailActions.addMail(mailArray));
+            });
+        Navigate("/mail-box");
+    };
+    const sentMailHandler = () => {
+        dispatch(mailActions.setInboxTrue(false));
+        axios
+            .get(
+                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}sentbox.json`
+            )
+            .then((res) => {
+                let datas = res.data;
+
+                let mailArray = [];
+                for (let id in datas) {
+                    let mails = datas[id];
+                    mails.id = id;
+                    mailArray.push(mails);
+                }
+                dispatch(mailActions.sentMail(mailArray));
+            });
+        Navigate("/mail-box");
     };
     return (
         <div>
@@ -19,53 +61,12 @@ const Button = () => {
 
             <div className={classes.views}>
             <div className={classes.unread}>
-                    <button>Inbox</button>
-                    <span>{`[${totalMail}]`}</span>
+            <button onClick={inboxHandler}>Inbox</button>
+                    <span>{`[unread:${unRead}]`}</span>
                 </div>
                 <div>
-                    <button>Unread</button>
-                </div>
-                <div>
-                    <button>Starred</button>
-                </div>
-                <div>
-                    <button>Drafts</button>
-                </div>
-                <div>
-                    <button>Sent</button>
-                </div>
-                <div>
-                    <button>Archive</button>
-                </div>
-                <div>
-                    <button>Spam</button>
-                </div>
-                <div>
-                    <button>Deleted Items</button>
-                </div>
-            </div>
-            <div className={classes.views}>
-                <div>VIEWS</div>
-                <div>
-                    <button>Photos</button>
-                </div>
-                <div>
-                    <button>Documents</button>
-                </div>
-                <div>
-                    <button>Subscription</button>
-                </div>
-                <div>
-                    <button>Deals</button>
-                </div>
-                <div>
-                    <button>Travel</button>
-                </div>
-            </div>
-            <div className={classes.views}>
-                <div>FOLDERS</div>
-                <div>
-                    <button>+New Folder</button>
+                    
+                <button onClick={sentMailHandler}>Sent box</button>
                 </div>
             </div>
         </div>

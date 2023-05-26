@@ -15,6 +15,7 @@ const ComposeMail = () => {
     const subjectRef = useRef();
     const dispatch = useDispatch();
     const userId = useSelector((state) => state.auth.userId);
+    const sender = localStorage.getItem("email");
     const editorState = EditorState.createEmpty();
     let message;
     const onEditorStateChange = (event) => {
@@ -24,6 +25,7 @@ const ComposeMail = () => {
         event.preventDefault();
         const recieverId = recieverIdRef.current.value;
         const subject = subjectRef.current.value;
+        const reciever = recieverId.replace(/[@,.]/g, "");
        
 
         const mailDetails = {
@@ -31,9 +33,20 @@ const ComposeMail = () => {
             subject: subject,
             message: message,
         };
+
+        const mailDetail = {
+            to: sender,
+            subject: subject,
+            message: message,
+        };
+
+        axios.post(
+            `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${reciever}inbox.json`,
+            mailDetail
+        );
         axios
             .post(
-                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox.json`,
+                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}sentbox.json`,
                 mailDetails
             )
 
@@ -51,7 +64,7 @@ const ComposeMail = () => {
                     })
                 );
             })
-            .catch((err) => alert(err));
+            .catch((err) => console.log(err));
             
            
     };
