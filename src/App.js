@@ -3,7 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import {useNavigate} from "react-router-dom";
 import SignUp from './Components/SignUp';
-import axios from 'axios';
+import { useAxiosGet } from './Components/Hook/apiGetHook';
+
 import { mailActions } from './Components/Store/MailSlice';
 import ReadMail from './Components/ReadMail';
 import MailBox from './Components/MailBox';
@@ -17,24 +18,23 @@ function App() {
   dispatch(authActions.setIsAuth());
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const userId = useSelector((state) => state.auth.userId);
+  const { data, fetchError } = useAxiosGet(
+    `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox.json`
+);
+
+let mailArray = [];
+for (let id in data) {
+    let mails = data[id];
+    // console.log(id);
+    mails.id = id;
+    mailArray.push(mails);
+}
+dispatch(mailActions.addMail(mailArray));
+
+fetchError && alert(fetchError);
 
     
-        setInterval(() => {
-        axios
-            .get(
-                `https://mail-box-client-b834a-default-rtdb.firebaseio.com/mails/${userId}inbox.json`
-            )
-            .then((res) => {
-                let datas = res.data;
-                let mailArray = [];
-                for (let id in datas) {
-                    let mail = datas[id];
-                    mail.id = id;
-                    mailArray.push(mail);
-                }
-                dispatch(mailActions.addMail(mailArray));
-            });
-    }, 2000);
+        
   return (
       <Fragment>
           <Routes>
