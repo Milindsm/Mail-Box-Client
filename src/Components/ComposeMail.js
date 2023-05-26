@@ -7,7 +7,10 @@ import { useRef } from "react";
 import axios from "axios";
 import classes from "./ComposeMail.module.css";
 
+import { useNavigate } from "react-router-dom";
+
 const ComposeMail = () => {
+    const Navigate = useNavigate();
     const recieverIdRef = useRef();
     const subjectRef = useRef();
     const dispatch = useDispatch();
@@ -37,6 +40,7 @@ const ComposeMail = () => {
             .then((res) => {
                 console.log(res.data);
                 alert("Successful");
+                Navigate ("/mail-box"); 
                 dispatch(
                     mailActions.addMailToList({
                         to: recieverId,
@@ -48,7 +52,10 @@ const ComposeMail = () => {
                 );
             })
             .catch((err) => alert(err));
+            
+           
     };
+    
 
     return (
         <div className={classes.mailBox}>
@@ -91,6 +98,7 @@ const ComposeMail = () => {
                 </div>
             </form>
         </div>
+        
     );
 };
 

@@ -48,6 +48,11 @@ const mailSlice = createSlice({
                 state.mails.splice(existingMailIndex, 1, updatedMail);
             }
         },
+        deleteMail(state, action) {
+            const id = action.payload;
+            state.mails = state.mails.filter((mail) => mail.id !== id);
+            state.totalmail--;
+        },
     },
 });
 
